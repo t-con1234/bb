@@ -16,7 +16,7 @@ import cucumber.api.java.en.Given;
 
 public class Steps{
 
-    public String URL = "http://192.168.60.63:4444/wd/hub";
+    public String URL = "http://hub.cloud.dev.testinium.com:4444/wd/hub";
     public static RemoteWebDriver driver;
 
     @Before
