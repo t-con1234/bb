@@ -2,17 +2,20 @@ package com.sahabt;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Then;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Steps{
 
@@ -25,7 +28,7 @@ public class Steps{
         capabilities.setCapability("key", System.getProperty("key"));
 
         try {
-            driver = new RemoteWebDriver(new URL(URL),capabilities);
+            driver = new RemoteWebDriver(new URL(URL), capabilities);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -47,5 +50,26 @@ public class Steps{
             Thread.sleep(Integer.valueOf(time));
         } catch (InterruptedException e) {
         }
+    }
+
+    @Then("^Click random link$")
+    public void clickRandomLink() {
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("window.scrollBy(0,250)", "");
+
+        List<WebElement> elements = driver.findElements(By.tagName("a"));
+        for (WebElement webElement : elements) {
+            WebDriverWait webDriverWait = new WebDriverWait(driver, 6);
+            WebElement waitElement = webDriverWait.until(ExpectedConditions.elementToBeClickable(webElement));
+            if(waitElement != null) {
+                try {
+                    webElement.click();
+                    break;
+                } catch (Exception e) {
+                    continue;
+                }
+            }
+        }
+
     }
 }
