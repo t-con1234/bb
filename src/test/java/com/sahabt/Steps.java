@@ -4,22 +4,23 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import cucumber.api.java.en.Then;
+import org.openqa.selenium.chrome.ChromeDriver;
+
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 public class Steps{
 
-    public String URL = "http://hub.cloud.dev.testinium.com:4444/wd/hub";
+    public String URL = "http://hub.testinium.io/wd/hub";
     public static RemoteWebDriver driver;
 
     @Before
@@ -28,7 +29,7 @@ public class Steps{
         capabilities.setCapability("key", System.getProperty("key"));
 
         try {
-            driver = new RemoteWebDriver(new URL(URL), capabilities);
+            driver = new RemoteWebDriver(new URL(URL),capabilities);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -59,7 +60,7 @@ public class Steps{
 
         List<WebElement> elements = driver.findElements(By.tagName("a"));
         for (WebElement webElement : elements) {
-            WebDriverWait webDriverWait = new WebDriverWait(driver, 6);
+            WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
             WebElement waitElement = webDriverWait.until(ExpectedConditions.elementToBeClickable(webElement));
             if(waitElement != null) {
                 try {
@@ -70,6 +71,5 @@ public class Steps{
                 }
             }
         }
-
     }
 }
